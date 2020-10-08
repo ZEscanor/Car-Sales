@@ -3,18 +3,15 @@ import React from 'react';
 import Header from './components/Header';
 import AddedFeatures from './components/AddedFeatures';
 import AdditionalFeatures from './components/AdditionalFeatures';
+
+import {connect} from "react-redux"; //a bridgepiece
+import {addFeature} from "./actions/carActions.js";
 import Total from './components/Total';
 
-const App = () => {
+const App = (props) => {
+  console.log(props.addFeature("hi"))
   const state = {
     additionalPrice: 0,
-    car: {
-      price: 26395,
-      name: '2019 Ford Mustang',
-      image:
-        'https://cdn.motor1.com/images/mgl/0AN2V/s1/2019-ford-mustang-bullitt.jpg',
-      features: []
-    },
     additionalFeatures: [
       { id: 1, name: 'V-6 engine', price: 1500 },
       { id: 2, name: 'Racing detail package', price: 1500 },
@@ -26,15 +23,23 @@ const App = () => {
   return (
     <div className="boxes">
       <div className="box">
-        <Header car={state.car} />
-        <AddedFeatures car={state.car} />
+        <Header car={props.car} />
+        <AddedFeatures car={props.car} />
       </div>
       <div className="box">
         <AdditionalFeatures additionalFeatures={state.additionalFeatures} />
-        <Total car={state.car} additionalPrice={state.additionalPrice} />
+        <Total car={props.car} additionalPrice={state.additionalPrice} />
       </div>
     </div>
   );
 };
+const mapStatetoProps = (state)=>{
+  return {
+    car: state.car
+  };
+}
 
-export default App;
+export default connect(mapStatetoProps,{addFeature})(App); // returns a function then immediately return it.
+// first invocation takes in a function and objects
+// when redux calls in function it will pass in entire state from the store.
+//return object will be added to the props of the connected component.

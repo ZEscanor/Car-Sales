@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Header = props => {
-  console.log("header",props)
+  //console.log("header",props)
   return (
     <>
       <figure className="image is-128x128">
